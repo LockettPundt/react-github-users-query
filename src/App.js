@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import './App.css';
 import UserCardList from './components/UserCardList';
 import Form from './components/Form';
-function App() {
+import { BrowserRouter as Router, Route} from 'react-router-dom';
+import User from './components/User';
+import Repos from './components/Repos';
+
+const App = () => {
   
   const [cards, setCards] = useState([]);
 
@@ -11,9 +15,17 @@ function App() {
   };
   return (
     <div className="App">
-      <p>Github Profiles</p>
-      <Form onSubmit={addNewCard}/>
-      <UserCardList cards={cards} />
+      <Router>
+        <Route path='/' exact render={ () => {
+         return (<>
+         <Form onSubmit={addNewCard} />
+         <UserCardList cards={cards} />
+         </>
+         )}
+        }
+        />
+        <Route path='/user/:userName?' exact render={ (props) => <User {...props} /> }/>
+      </Router>
     </div>
   );
 }
